@@ -7,20 +7,10 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/project">
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/local-cli/link/__fixtures__/android/0.20" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/local-cli/core/__fixtures__/files" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/ReactAndroid/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fb/jni/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/local-cli/link/__fixtures__/android/0.17" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/android/app/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/local-cli/templates/HelloWorld/android/app/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/local-cli/link/__fixtures__/android/0.18" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/ReactAndroid/src/test/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/project/node_modules/react-native/ReactAndroid/src/androidTest/java" isTestSource="false" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/.idea/gen" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="effects_apis" level="project" />
   </component>
 </module>
