@@ -7,47 +7,33 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
   Text,
-  View
+  View,
+  DrawerLayoutAndroid
 } from 'react-native';
+import {Scene, Router} from 'react-native-router-flux';
+import Navigation from './navigation/component';
+import Home from './home/component';
+import Settings from './settings/component';
 
 export default class DailyBudget extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <DrawerLayoutAndroid
+        ref={drawer => this._drawer = drawer}
+        drawerWidth={250}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => <Navigation drawer={this._drawer}/>}
+      >
+        <Router hideNavBar={true}>
+          <Scene key="root">
+            <Scene key="home" component={Home} initial={true}/>
+            <Scene key="settings" component={Settings} title="Настройки"/>
+          </Scene>
+        </Router>
+      </DrawerLayoutAndroid>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 AppRegistry.registerComponent('DailyBudget', () => DailyBudget);
