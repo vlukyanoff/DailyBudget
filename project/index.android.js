@@ -11,10 +11,12 @@ import {
   View,
   DrawerLayoutAndroid
 } from 'react-native';
-import {Scene, Router} from 'react-native-router-flux';
+import {Scene, Router, ActionConst} from 'react-native-router-flux';
 import Navigation from './navigation/component';
 import Home from './home/component';
 import Settings from './settings/component';
+import appStore from './app-store';
+import {Provider} from 'react-redux';
 
 export default class DailyBudget extends Component {
   render() {
@@ -25,12 +27,14 @@ export default class DailyBudget extends Component {
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => <Navigation drawer={this._drawer}/>}
       >
-        <Router hideNavBar={true}>
-          <Scene key="root">
-            <Scene key="home" component={Home} initial={true}/>
-            <Scene key="settings" component={Settings} title="Настройки"/>
-          </Scene>
-        </Router>
+        <Provider store={appStore}>
+            <Router hideNavBar={true}>
+              <Scene key="root">
+                <Scene key="home" type={ActionConst.REPLACE} component={Home} initial={true}/>
+                <Scene key="settings" type={ActionConst.REPLACE} component={Settings} title="Настройки"/>
+              </Scene>
+            </Router>
+        </Provider>
       </DrawerLayoutAndroid>
     );
   }

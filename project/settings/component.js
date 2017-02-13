@@ -2,34 +2,47 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput
 } from 'react-native';
+import {getIncome} from './selectors';
+import {connect} from 'react-redux';
+import {changeIncome} from './actions';
 
-export default function() {
+const Settings = function({income, changeIncome}) {
   return (
     <View style={styles.container}>
-              <Text style={styles.welcome}>
-                Страница с настройками
-              </Text>
-            </View>
+      <Text style={styles.welcome}>
+        Доход в месяц, руб
+      </Text>
+      <TextInput value={income} onChangeText={text => changeIncome(text)} style={styles.input}/>
+      <Text style={styles.welcome}>
+        Откладываем, %
+      </Text>
+      <TextInput value={'20'} style={styles.input}/>
+      <Text style={styles.welcome}>
+        Обязательные расходы (пока только один пункт)
+      </Text>
+      <TextInput value={'3000'} style={styles.input}/>
+    </View>
   )
 }
 
+export default connect(state => ({
+    income: getIncome(state)
+}), {
+    changeIncome
+})(Settings);
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding: 20
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  label: {
+    fontSize: 16,
+    textAlign: 'left'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  input: {
+    marginBottom: 20
   },
 });
