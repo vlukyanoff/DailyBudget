@@ -68,7 +68,7 @@ class Home extends Component {
 
     _getBalance = (date) => {
         const {monthlyBudget, dailySpending} = this.props;
-        const daysInMonth = moment(date).daysInMonth();
+        const daysInMonth = +moment(date).daysInMonth();
         const dailyBalance = Math.floor(monthlyBudget / daysInMonth);
         const dayNumber = moment(date).get('date');
         const monthNumber = moment(date).get('month');
@@ -76,10 +76,12 @@ class Home extends Component {
         const monthlySpending = datesWithSpending.reduce((spending, dateWithSpending) => {
             if (
                 moment(+dateWithSpending).get('month') === monthNumber &&
-                moment(+dateWithSpending).get('day') <= dayNumber
+                moment(+dateWithSpending).get('date') <= dayNumber
             ) {
                 return spending + +dailySpending[dateWithSpending];
             }
+
+            return spending;
         }, 0);
 
         return (dailyBalance * dayNumber) - monthlySpending;

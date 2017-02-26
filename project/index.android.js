@@ -9,7 +9,7 @@ import {Scene, Router, ActionConst} from 'react-native-router-flux';
 import Navigation from './navigation/component';
 import Home from './home/component';
 import Settings from './settings/container';
-import appStore from './app-store';
+import {store, persistor} from './app-store';
 import {Provider} from 'react-redux';
 
 export default class DailyBudget extends Component {
@@ -21,7 +21,7 @@ export default class DailyBudget extends Component {
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={() => <Navigation drawer={this._drawer}/>}
             >
-                <Provider store={appStore}>
+                <Provider store={store} persistor={persistor}>
                     <Router hideNavBar={true}>
                         <Scene key="root">
                             <Scene key="home" type={ActionConst.REPLACE} component={Home} initial={true}/>
