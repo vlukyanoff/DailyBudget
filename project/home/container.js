@@ -17,6 +17,7 @@ import {DayView} from './day-view';
 import {AddView} from './add-view';
 import {ModalView} from './modal-view';
 import {Toolbar, ToolbarItem} from '../toolbar/index';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const dateFormat = 'dd, D MMM';
 
@@ -73,15 +74,15 @@ class Home extends Component {
 
         return (
             <View style={styles.container}>
-                <ToolbarAndroid
-                    style={styles.toolbar}
-                    navIcon={require('../menu.png')}
+                <Icon.ToolbarAndroid
+                    title="Home"
+                    titleColor="black"
+                    navIconName="md-menu"
                     onIconClicked={this.props.onMenuClick}
-                    actions = {[
-                        {title: "Log out", icon: require("../menu.png"), show: "always"}
-                    ]}
+                    style={styles.toolbar}
                 />
                 <View style={styles.content}>
+                    <Text>Контент главной страницы</Text>
                 </View>
             </View>
         );
