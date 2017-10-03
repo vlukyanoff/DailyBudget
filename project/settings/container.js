@@ -11,6 +11,7 @@ import {getIncome, getSaving, getSpending} from './selectors';
 import {connect} from 'react-redux';
 import {changeIncome, changeSaving, changeSpending} from './actions';
 import {Actions} from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Settings = function ({
     income,
@@ -22,11 +23,11 @@ const Settings = function ({
 }) {
     return (
         <View style={styles.container}>
-            <ToolbarAndroid
-                style={styles.toolbar}
-                title={'Настройки'}
-                navIcon={require('../menu.png')}
+            <Icon.ToolbarAndroid
+                title='Настройки'
+                navIconName='md-arrow-back'
                 onIconClicked={Actions.home}
+                style={styles.toolbar}
             />
             <View style={styles.content}>
                 <Text style={styles.label}>

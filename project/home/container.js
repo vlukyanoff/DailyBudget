@@ -4,10 +4,8 @@ import {
     Text,
     View,
     Modal,
-    TouchableHighlight,
     ToolbarAndroid
 } from 'react-native';
-import {TabViewAnimated, TabBar} from 'react-native-tab-view';
 import moment from 'moment';
 import 'moment/locale/ru';
 import {getMonthlyBudget, getDailySpending} from './selectors';
@@ -19,10 +17,14 @@ import {ModalView} from './modal-view';
 import {Toolbar, ToolbarItem} from '../toolbar/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const dateFormat = 'dd, D MMM';
+const dateFormat = 'dddd, D MMMM';
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 class Home extends Component {
-    _days = [];
+    _today = null;
 
     constructor(props) {
         super(props);
@@ -32,58 +34,69 @@ class Home extends Component {
         const month = today.getMonth();
         const date = today.getDate();
 
-        this._days = [
-            new Date(year, month, date - 1),
-            new Date(year, month, date),
-            new Date(year, month, date + 1)
-        ];
+        this._today = new Date(year, month, date);
 
         moment.locale('ru');
 
-
         this.state = {
-            modalIsVisible: false,
+            modalIsVisible: false
         }
     }
 
-    // _getBalance = (date) => {
-    //     const {monthlyBudget, dailySpending} = this.props;
-    //     const daysInMonth = +moment(date).daysInMonth();
-    //     const dailyBalance = Math.floor(monthlyBudget / daysInMonth);
-    //     const dayNumber = moment(date).get('date');
-    //     const monthNumber = moment(date).get('month');
-    //     const datesWithSpending = Object.keys(dailySpending);
-    //     const monthlySpending = datesWithSpending.reduce((spending, dateWithSpending) => {
-    //         if (
-    //             moment(+dateWithSpending).get('month') === monthNumber &&
-    //             moment(+dateWithSpending).get('date') <= dayNumber
-    //         ) {
-    //             return spending + +dailySpending[dateWithSpending];
-    //         }
-    //
-    //         return spending;
-    //     }, 0);
-    //
-    //     return (dailyBalance * dayNumber) - monthlySpending;
-    // };
+    _getBalance = (date) => {
+        const {monthlyBudget, dailySpending} = this.props;
+        const daysInMonth = moment(date).daysInMonth();
+        const dailyBalance = Math.floor(monthlyBudget / daysInMonth);
+        const dayNumber = moment(date).get('date');
+        const monthNumber = moment(date).get('month');
+        const datesWithSpending = Object.keys(dailySpending);
+        const monthlySpending = datesWithSpending.reduce((spending, dateWithSpending) => {
+            if (
+                moment(+dateWithSpending).get('month') === monthNumber &&
+                moment(+dateWithSpending).get('day') <= dayNumber
+            ) {
+                if (isNumeric(dailySpending[dateWithSpending])) {
+                    return spending + +dailySpending[dateWithSpending];
+                }
+            }
+
+            return spending;
+        }, 0);
+
+        return (dailyBalance * dayNumber) - monthlySpending;
+    };
+
+    _changeModalVisibility = () => {
+        this.setState({ modalIsVisible: !this.state.modalIsVisible })
+    };
 
     render() {
-        // const {modalIsVisible, index} = this.state;
-        // const {changeDailySpending, dailySpending} = this.props;
-        // const selectedDate = this._days[index].getTime();
+        const {modalIsVisible, index} = this.state;
+        const {changeDailySpending, dailySpending} = this.props;
+        const selectedDate = this._today.getTime();
 
         return (
             <View style={styles.container}>
                 <Icon.ToolbarAndroid
-                    title="Home"
-                    titleColor="black"
-                    navIconName="md-menu"
+                    navIconName='md-menu'
                     onIconClicked={this.props.onMenuClick}
+                    actions={[{title: 'Settings', iconName: 'md-calendar', show: 'always'}]}
                     style={styles.toolbar}
                 />
-                <View style={styles.content}>
-                    <Text>Контент главной страницы</Text>
-                </View>
+                <AddView
+                    onPress={() => this._changeModalVisibility()}
+                />
+                <DayView
+                    balance={this._getBalance(selectedDate)}
+                    dateText={moment(selectedDate).format(dateFormat)}
+                />
+                <ModalView
+                    isVisible={modalIsVisible}
+                    date={selectedDate}
+                    sum={dailySpending[selectedDate]}
+                    onChange={(date, val) => changeDailySpending(date, val)}
+                    onSubmit={() => this._changeModalVisibility()}
+                />
             </View>
         );
     }
