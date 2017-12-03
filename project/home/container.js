@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/ru';
-import {getMonthlyBudget, getDailySpending} from './selectors';
-import {changeDailySpending} from './actions';
+import {getMonthlyBudget, getDailySpending, getSelectedDate} from './selectors';
+import {changeDailySpending, changeSelectedDate} from './actions';
 import {connect} from 'react-redux';
 import {DayView} from './day-view';
 import {AddView} from './add-view';
@@ -72,9 +72,9 @@ class Home extends Component {
     };
 
     render() {
-        const {modalIsVisible, index} = this.state;
-        const {changeDailySpending, dailySpending} = this.props;
-        const selectedDate = this._today.getTime();
+        const {modalIsVisible} = this.state;
+        const {changeDailySpending, dailySpending, selectedDate, changeSelectedDate} = this.props;
+        const date = selectedDate || this._today.getTime();
 
         return (
             <View style={styles.container}>
@@ -88,16 +88,17 @@ class Home extends Component {
                     onPress={() => this._changeModalVisibility()}
                 />
                 <DayView
-                    balance={this._getBalance(selectedDate)}
-                    dateText={moment(selectedDate).format(dateFormat)}
+                    balance={this._getBalance(date)}
+                    dateText={moment(date).format(dateFormat)}
                 />
                 <ModalView
                     isVisible={modalIsVisible}
-                    date={selectedDate}
-                    dateText={moment(selectedDate).format(shortDateFormat)}
-                    sum={dailySpending[selectedDate]}
+                    date={date}
+                    dateText={moment(date).format(shortDateFormat)}
+                    sum={dailySpending[date]}
                     onChange={(date, val) => changeDailySpending(date, val)}
                     onClose={() => this._changeModalVisibility()}
+                    onSelectDate={(date) => changeSelectedDate(date)}
                 />
             </View>
         );
@@ -106,9 +107,11 @@ class Home extends Component {
 
 export default connect(state => ({
     monthlyBudget: getMonthlyBudget(state),
-    dailySpending: getDailySpending(state)
+    dailySpending: getDailySpending(state),
+    selectedDate: getSelectedDate(state)
 }), {
-    changeDailySpending
+    changeDailySpending,
+    changeSelectedDate
 })(Home);
 
 const styles = StyleSheet.create({

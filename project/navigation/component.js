@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TouchableNativeFeedback,
-  Button,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,14 +17,20 @@ export default function({drawer}) {
   return (
     <View style={styles.container}>
         <View style={styles.itemsGroup}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#000000')}>
-                <View style={styles.item} onPress={() => onClick(Actions.home)}>
+            <TouchableNativeFeedback
+                background={TouchableNativeFeedback.Ripple('#000000')}
+                onPress={() => onClick(Actions.home)}
+            >
+                <View style={styles.item}>
                     <View><Icon name='md-home' color={'rgba(0, 0, 0, 0.54)'} size={20}/></View>
                     <View><Text style={styles.itemText}>Главная</Text></View>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#000000')}>
-                <View style={styles.item} onPress={() => onClick(Actions.settings)}>
+            <TouchableNativeFeedback
+                background={TouchableNativeFeedback.Ripple('#000000')}
+                onPress={() => onClick(Actions.settings)}
+            >
+                <View style={styles.item}>
                     <View><Icon name='md-settings' color={'rgba(0, 0, 0, 0.54)'} size={20}/></View>
                     <View><Text style={styles.itemText}>Настройки</Text></View>
                 </View>

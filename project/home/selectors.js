@@ -11,3 +11,6 @@ export const getMonthlyBudget = createSelector(
         return (income * (1 - (saving / 100))) - spending;
     }
 );
+
+// TODO: Переложить редьюсер
+export const getSelectedDate = state => state.dailySpending.selectedDate;
