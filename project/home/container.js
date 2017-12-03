@@ -18,6 +18,7 @@ import {Toolbar, ToolbarItem} from '../toolbar/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const dateFormat = 'dddd, D MMMM';
+const shortDateFormat = 'dd, D MMM';
 
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -93,9 +94,10 @@ class Home extends Component {
                 <ModalView
                     isVisible={modalIsVisible}
                     date={selectedDate}
+                    dateText={moment(selectedDate).format(shortDateFormat)}
                     sum={dailySpending[selectedDate]}
                     onChange={(date, val) => changeDailySpending(date, val)}
-                    onSubmit={() => this._changeModalVisibility()}
+                    onClose={() => this._changeModalVisibility()}
                 />
             </View>
         );
